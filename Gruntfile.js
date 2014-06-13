@@ -146,8 +146,6 @@ module.exports = function (grunt) {
     },
 
 
-
-
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
       options: {
@@ -395,7 +393,6 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
-
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
