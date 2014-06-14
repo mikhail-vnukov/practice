@@ -9,7 +9,8 @@
     "angular-mousewheel": "~1.0.4",
     "angular-cookies": "~1.2.16",
     "angular-cookie": "~4.0.0",
-    "angular-resource": "~1.2.16"
+    "angular-resource": "~1.2.16",
+    "d3": "~3.4.8"
   },
   "devDependencies": {
     "karma-jasmine": "~0.2.2",

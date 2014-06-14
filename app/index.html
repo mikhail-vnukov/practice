@@ -24,11 +24,15 @@
 		<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		<div class="container" ng-include="'views/list.html'" ng-controller="ListCtrl"></div>
 
 		<!-- Add your site or application content here -->
-		<div class="container" msd-wheel="mouseHandle($event, $delta, $deltaX, $deltaY)" ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
-
+		<div class="container" ng-controller='ListCtrl'>
+			<bars-chart chart-data="data"></bars-chart>
+		</div>
+		<div class="container" ng-controller='MainCtrl'>
+			<input type="text" ng-model='name'></input>
+			<input type="text" ng-model='value'></input>
+		</div>
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 		 <script>
 			 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -52,6 +56,7 @@
 		<script src="bower_components/angular-cookies/angular-cookies.js"></script>
 		<script src="bower_components/angular-cookie/angular-cookie.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
+		<script src="bower_components/d3/d3.js"></script>
 		<!-- endbower -->
 		<!-- endbuild -->
 		<script src="bower_components/hamsterjs/hamster.js"></script>
@@ -59,6 +64,10 @@
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>
 		<script src="scripts/controllers/main.js"></script>
+		<script src="scripts/controllers/list.js"></script>
+		<script src="scripts/directives/bar-chart.js"></script>
 		<!-- endbuild -->
+
+
 </body>
 </html>

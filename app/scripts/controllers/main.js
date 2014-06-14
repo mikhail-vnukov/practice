@@ -2,7 +2,7 @@
 
 angular.module('landosApp')
 .service('sharedProperties', [function () {
-	var property = 0;
+	var property = {};
 
 	return {
 		getProperty:function () {
@@ -30,11 +30,10 @@ function($rootScope, ipCookie, sharedProperties) {
 ['$rootScope', '$http', '$timeout',
 function($rootScope, $http, $timeout) {
 	var pushResult;
-	function push(value) {
-		$http.post('http://127.0.0.1:3000/dots', value).
+	function push(model) {
+		$http.post('http://127.0.0.1:3000/dots', {'name' : model.name, 'value' : model.value}).
 		success(function() {
 			$rootScope.$broadcast('listChanged');
-			console.log(arguments);
 		}).
 		error(function() {
 			console.log(arguments);
@@ -46,6 +45,9 @@ function($rootScope, $http, $timeout) {
 	}
 
 	$rootScope.$watch('sharedProperties.getProperty()', function(newValue) {
+		if (!newValue) {
+			return;
+		}
 		if(pushResult) {
 			$timeout.cancel(pushResult);
 		}
@@ -78,34 +80,20 @@ function($rootScope, syncoSerivce, cookieService, sharedProperties) {
 function ($scope, initializer, sharedProperties) {
 	initializer.init();
 	$scope.$watch('sharedProperties.getProperty', function() {
-		$scope.value = sharedProperties.getProperty();
+		$scope.value = sharedProperties.getProperty().value;
+		$scope.name = sharedProperties.getProperty().name;
 	});
 
 	$scope.$watch('value', function() {
-		sharedProperties.setProperty($scope.value);
+		sharedProperties.setProperty({'value': $scope.value, 'name' : $scope.name});
 	});
 
+	// $scope.Math = window.Math;
 
-	$scope.Math = window.Math;
-	 
-	$scope.mouseHandle = function($event, $delta, $deltaX, $deltaY) {
-		  var ab = Math.abs($scope.value);
-		  var coef = ab < 10 ? 50 : (ab < 100) ? 10 : 1;
-		  $scope.value -= $deltaY/coef;
-	 };
-}])
-.controller('ListCtrl',
-['$scope', 'syncoSerivce',
-function ($scope, syncoSerivce) {
-
-	$scope.$on('listChanged', function() {
-		syncoSerivce.list().
-		success(function(result){
-			$scope.values = result;
-		}).
-		error(function(err) {
-			console.error(err);
-		});
-	});
+	// $scope.mouseHandle = function($event, $delta, $deltaX, $deltaY) {
+	// 	  var ab = Math.abs($scope.value);
+	// 	  var coef = ab < 10 ? 50 : (ab < 100) ? 10 : 1;
+	// 	  $scope.value -= $deltaY/coef;
+	//  };
 }]);
 
