@@ -30,8 +30,7 @@
 			<bars-chart chart-data="data"></bars-chart>
 		</div>
 		<div class="container" ng-controller='MainCtrl'>
-			<input type="text" ng-model='name'></input>
-			<input type="text" ng-model='value'></input>
+			<input ng-keydown="handleKey($event)" type="text" ng-model='value'></input>
 		</div>
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 		 <script>

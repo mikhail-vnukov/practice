@@ -27,22 +27,22 @@ angular.module('landosApp')
 					 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 				var y = d3.scale.linear()
 					.range([height, 0])
-					.domain(d3.extent(data, function(d) { return d.value; })).nice();
+					.domain(d3.extent(data, function(d) { return d.data; })).nice();
 				var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.2)
-					.domain(data.map(function(d) { return d.name; }));
+					.domain(data.map(function(d) { return d._id; }));
 
 				var yAxis = d3.svg.axis().scale(y).orient('left');
 
 				svg.selectAll('.bar')
 					.data(data)
 					.enter().append('rect')
-					.attr('class', function(d) { return d.value < 0 ? 'bar negative' : 'bar positive'; })
+					.attr('class', function(d) { return d.data < 0 ? 'bar negative' : 'bar positive'; })
 					.attr('y', function(d) {
-							return y((Math.max(d.value, 0)));
+							return y((Math.max(d.data, 0)));
 					})
-					.attr('x', function(d) { return x(d.name); })
+					.attr('x', function(d) { return x(d._id); })
 					.attr('height', function(d) {
-						return Math.abs(y(0) - y(d.value));
+						return Math.abs(y(0) - y(d.data));
 					})
 					.attr('width', x.rangeBand());
 

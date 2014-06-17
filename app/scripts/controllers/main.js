@@ -2,7 +2,7 @@
 
 angular.module('landosApp')
 .service('sharedProperties', [function () {
-	var property = {};
+	var property;
 
 	return {
 		getProperty:function () {
@@ -16,8 +16,10 @@ angular.module('landosApp')
 .factory('cookieService',
 ['$rootScope', 'ipCookie', 'sharedProperties',
 function($rootScope, ipCookie, sharedProperties) {
-	$rootScope.$watch('sharedProperties.getProperty()', function() {
-		ipCookie('value', sharedProperties.getProperty(), {expires: 2});
+	$rootScope.$watch('sharedProperties.getProperty()', function(newValue, oldValue) {
+		if (newValue !== oldValue) {
+			ipCookie('value', sharedProperties.getProperty(), {expires: 2});
+		}
 	});
 
 	return {
@@ -31,7 +33,7 @@ function($rootScope, ipCookie, sharedProperties) {
 function($rootScope, $http, $timeout) {
 	var pushResult;
 	function push(model) {
-		$http.post('http://127.0.0.1:3000/dots', {'name' : model.name, 'value' : model.value}).
+		$http.post('http://127.0.0.1:3000/dots', model).
 		success(function() {
 			$rootScope.$broadcast('listChanged');
 		}).
@@ -79,15 +81,21 @@ function($rootScope, syncoSerivce, cookieService, sharedProperties) {
 ['$scope', 'initializer', 'sharedProperties',
 function ($scope, initializer, sharedProperties) {
 	initializer.init();
-	$scope.$watch('sharedProperties.getProperty', function() {
-		$scope.value = sharedProperties.getProperty().value;
-		$scope.name = sharedProperties.getProperty().name;
+	$scope.$watch('sharedProperties.getProperty()', function() {
+		$scope.value = sharedProperties.getProperty();
 	});
 
 	$scope.$watch('value', function() {
-		sharedProperties.setProperty({'value': $scope.value, 'name' : $scope.name});
+		sharedProperties.setProperty($scope.value);
 	});
 
+	$scope.handleKey = function($event) {
+		if ($event.keyCode === 38) {
+			$scope.value++;
+		} else if ($event.keyCode === 40) {
+			$scope.value--;
+		}
+	};
 	// $scope.Math = window.Math;
 
 	// $scope.mouseHandle = function($event, $delta, $deltaX, $deltaY) {
