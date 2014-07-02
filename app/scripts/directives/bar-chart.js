@@ -27,24 +27,28 @@ angular.module('landosApp')
 					 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 				var y = d3.scale.linear()
 					.range([height, 0])
-					.domain(d3.extent(data, function(d) { return d.data; })).nice();
-				var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.2)
-					.domain(data.map(function(d) { return d._id; }));
+					.domain(d3.extent(data, function(d) {
+						return d;
+					})).nice();
+
+				var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
 
 				var yAxis = d3.svg.axis().scale(y).orient('left');
 
 				svg.selectAll('.bar')
 					.data(data)
 					.enter().append('rect')
-					.attr('class', function(d) { return d.data < 0 ? 'bar negative' : 'bar positive'; })
+					.attr('class', function(d) { return d < 0 ? 'bar negative' : 'bar positive'; })
 					.attr('y', function(d) {
-							return y((Math.max(d.data, 0)));
+						return y(Math.max(d, 0));
 					})
-					.attr('x', function(d) { return x(d._id); })
+					.attr('x', function(d, i) {
+						return x(i);
+					})
 					.attr('height', function(d) {
-						return Math.abs(y(0) - y(d.data));
+						return Math.abs(y(0) - y(d));
 					})
-					.attr('width', x.rangeBand());
+					.attr('width', 20);
 
 				svg.append('g')
 					.attr('class', 'y axis')

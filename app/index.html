@@ -29,7 +29,7 @@
 		<div class="container" ng-controller='ListCtrl'>
 			<bars-chart chart-data="data"></bars-chart>
 		</div>
-		<div class="container" ng-controller='MainCtrl'>
+		<div class="container" ng-controller='InputCtrl'>
 			<input ng-keydown="handleKey($event)" type="text" ng-model='value'></input>
 		</div>
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -52,17 +52,20 @@
 		<!-- bower:js -->
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="bower_components/hamsterjs/hamster.js"></script>
+		<script src="bower_components/angular-mousewheel/mousewheel.js"></script>
 		<script src="bower_components/angular-cookies/angular-cookies.js"></script>
 		<script src="bower_components/angular-cookie/angular-cookie.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
 		<script src="bower_components/d3/d3.js"></script>
 		<!-- endbower -->
 		<!-- endbuild -->
-		<script src="bower_components/hamsterjs/hamster.js"></script>
-		<script src="bower_components/angular-mousewheel/mousewheel.js"></script>
+
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>
-		<script src="scripts/controllers/main.js"></script>
+		<script src="scripts/controllers/util.js"></script>
+		<script src="scripts/controllers/rest.js"></script>
+		<script src="scripts/controllers/input.js"></script>
 		<script src="scripts/controllers/list.js"></script>
 		<script src="scripts/directives/bar-chart.js"></script>
 		<!-- endbuild -->
